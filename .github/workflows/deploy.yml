@@ -1,0 +1,24 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH key # Installer une clé privée SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add server's SSH key to known_hosts
+        run: ssh-keyscan -H 54.37.12.207 >> ~/.ssh/known_hosts
+
+      - name: Deploy files via SSH
+        run: rsync -avz --delete app/ SSH_USER@IP_SERVER:tmp/
