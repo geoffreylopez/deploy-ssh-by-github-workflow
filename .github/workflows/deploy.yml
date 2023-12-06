@@ -21,4 +21,4 @@ jobs:
         run: ssh-keyscan -H 54.37.12.207 >> ~/.ssh/known_hosts
 
       - name: Deploy files via SSH
-        run: rsync -avz --delete app/ SSH_USER@IP_SERVER:tmp/
+        run: rsync -avz --delete app/ preprod@54.37.12.207:tmp/
